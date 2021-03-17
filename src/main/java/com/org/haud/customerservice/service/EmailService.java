@@ -39,7 +39,7 @@ public class EmailService {
 		// Prepare the evaluation context
 		final Context ctx = new Context();
 		ctx.setVariable("name", customer.getFirstName());
-		String html = templateEngine.process("/templates/email/bday.html", ctx);
+		String html = templateEngine.process("bday", ctx);
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
 		MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
 		message.setFrom(from);

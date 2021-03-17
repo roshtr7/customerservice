@@ -9,11 +9,14 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.springframework.stereotype.Service;
+
 import com.org.haud.customerservice.dto.ResponseDto;
 import com.org.haud.customerservice.dto.SimCardDto;
 import com.org.haud.customerservice.entity.SimCard;
 import com.org.haud.customerservice.repository.SimCardRepository;
 
+@Service
 public class SimCardServiceImp implements SimCardService {
 
 	private SimCardRepository simCardRepository;
