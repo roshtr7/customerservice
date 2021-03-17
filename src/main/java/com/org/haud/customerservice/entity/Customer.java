@@ -3,6 +3,7 @@ package com.org.haud.customerservice.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -50,10 +51,10 @@ public class Customer {
 	@Column(nullable = false)
 	private Date dateOfBirth;
 
-	@OneToMany(fetch = FetchType.LAZY)  
-	@JoinColumn(name="sim_card_id", nullable = true)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "sim_card_id", nullable = true)
 	private List<SimCard> simCardList;
-	
+
 	@NotNull
 	@Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
 	@Builder.Default

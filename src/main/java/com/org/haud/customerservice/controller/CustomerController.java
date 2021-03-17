@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.org.haud.customerservice.dto.CustomerDto;
@@ -20,7 +21,7 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
-	
+
 	@Autowired
 	EmailScheduler emailScheduler;
 
@@ -35,14 +36,21 @@ public class CustomerController {
 	}
 
 	@GetMapping("/sim")
-	public ResponseEntity<ResponseDto> retrieveCustomerSims(Long customerId) {
+	public ResponseEntity<ResponseDto> retrieveCustomerSims(@RequestParam Long customerId) {
 		return ResponseEntity
 				.ok(ResponseDto.builder().data(customerService.findAllSimsByCustomerId(customerId)).build());
 	}
-	
+
 	@GetMapping("/testemail")
 	public void testEmail() {
 		emailScheduler.sendBirthdayEmail();
+	}
+
+	@GetMapping("/link-sim")
+	public ResponseEntity<ResponseDto> linkCustomerAndSim(@RequestParam Long customerId, @RequestParam Long simId)
+			throws CustomerServiceException {
+		customerService.linkSim(customerId, simId);
+		return ResponseEntity.ok(ResponseDto.builder().build());
 	}
 
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import net.javacrumbs.shedlock.core.SchedulerLock;
 
 @Service
 public class EmailScheduler {
+
+	private static final Logger logger = LogManager.getLogger(EmailScheduler.class);
 
 	@Autowired
 	CustomerService customerService;
@@ -31,7 +35,7 @@ public class EmailScheduler {
 			try {
 				emailService.sendEmail(c);
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				logger.error("Exception occured: ", e);
 			}
 		});
 	}

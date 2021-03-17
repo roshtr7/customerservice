@@ -19,6 +19,7 @@ import com.org.haud.customerservice.entity.Customer;
 import com.org.haud.customerservice.entity.SimCard;
 import com.org.haud.customerservice.exception.CustomerServiceException;
 import com.org.haud.customerservice.repository.CustomerRepository;
+import com.org.haud.customerservice.repository.SimCardRepository;
 import com.org.haud.customerservice.util.AppConstants;
 
 @Service
@@ -26,6 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+
+	@Autowired
+	private SimCardRepository simCardRepository;
 
 	@Override
 	public ResponseDto createUser(CustomerDto userDto) throws CustomerServiceException {
@@ -71,6 +75,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> getAllCustomerHavingBdayAfter7Days() {
 		return Optional.ofNullable(customerRepository.findAllCustomerHavingBdayAfter7Days()).orElse(new ArrayList<>());
+	}
+
+	@Override
+	public void linkSim(Long customerId, Long simId) throws CustomerServiceException {
+		Customer customer = customerRepository.findById(customerId)
+				.orElseThrow(() -> new CustomerServiceException(AppConstants.ErrorMsgs.CUSTOMER_NOT_FOUND));
+		SimCard sim = simCardRepository.findById(customerId)
+				.orElseThrow(() -> new CustomerServiceException(AppConstants.ErrorMsgs.SIM_NOT_FOUND));
+		List<SimCard> simCardList = Optional.ofNullable(customer.getSimCardList()).orElse(new ArrayList<>());
+		simCardList.add(sim);
+		customerRepository.save(customer);
 	}
 
 }

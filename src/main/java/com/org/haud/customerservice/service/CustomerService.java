@@ -18,4 +18,6 @@ public interface CustomerService {
 
 	List<Customer> getAllCustomerHavingBdayAfter7Days();
 
+	void linkSim(Long customerId, Long simId) throws CustomerServiceException;
+
 }
