@@ -1,4 +1,4 @@
-package com.org.haud.customerservice.repository;
+package com.org.haud.customerservice.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

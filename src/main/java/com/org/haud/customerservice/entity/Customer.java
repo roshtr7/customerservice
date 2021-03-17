@@ -1,6 +1,7 @@
-package com.org.haud.customerservice.repository;
+package com.org.haud.customerservice.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "customer")
 public class Customer {
 
 	@Id
@@ -51,7 +52,7 @@ public class Customer {
 
 	@OneToMany(fetch = FetchType.LAZY)  
 	@JoinColumn(name="sim_card_id")
-	private SimCard simCard;
+	private List<SimCard> simCardList;
 	
 	@NotNull
 	@Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
