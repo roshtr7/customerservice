@@ -8,4 +8,8 @@ public abstract class AppConstants {
 		public static final String DUPLICATE_EMAIL = "Duplicate Email!!";
 	}
 
+	public abstract class Emails {
+		public static final String ADVANCEHAPPYBDAY = "Advance Happy Birthday";
+	}
+
 }

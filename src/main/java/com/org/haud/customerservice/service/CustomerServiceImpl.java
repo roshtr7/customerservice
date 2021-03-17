@@ -60,5 +60,10 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<SimCard> findAllSimsByCustomerId(Long customerId) {
 		return Optional.ofNullable(customerRepository.findSimsByCustomerId(customerId)).orElse(new ArrayList<>());
 	}
+	
+	@Override
+	public List<Customer> getAllCustomerHavingBday() {
+		return Optional.ofNullable(customerRepository.findAllCustomerHavingBday()).orElse(new ArrayList<>());
+	}
 
 }

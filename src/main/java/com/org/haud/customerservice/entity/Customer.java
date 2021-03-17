@@ -51,7 +51,7 @@ public class Customer {
 	private Date dateOfBirth;
 
 	@OneToMany(fetch = FetchType.LAZY)  
-	@JoinColumn(name="sim_card_id")
+	@JoinColumn(name="sim_card_id", nullable = true)
 	private List<SimCard> simCardList;
 	
 	@NotNull
