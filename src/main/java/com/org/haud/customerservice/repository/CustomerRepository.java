@@ -21,4 +21,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(FROM_UNIXTIME(c.dateOfBirth),'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')")
 	List<Customer> findAllCustomerHavingBday();
 
+	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(FROM_UNIXTIME(c.dateOfBirth),'%m-%d') = DATE_FORMAT(DAY(ADDDATE(NOW(),+7),'%m-%d')")
+	List<Customer> findAllCustomerHavingBdayAfter7Days();
 }

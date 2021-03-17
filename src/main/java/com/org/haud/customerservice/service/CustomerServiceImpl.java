@@ -23,10 +23,10 @@ import com.org.haud.customerservice.util.AppConstants;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-	
+
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	@Override
 	public ResponseDto createUser(CustomerDto userDto) throws CustomerServiceException {
 		List<String> errorList = validateUser(userDto);
@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
 		customerRepository.save(customer);
 		return ResponseDto.builder().build();
 	}
-	
+
 	public List<String> validateUser(CustomerDto user) {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -50,20 +50,27 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		return errorList;
 	}
-	
+
 	public void validateEmail(String email) throws CustomerServiceException {
 		Optional<Customer> userId = customerRepository.findByEmail(email);
-		userId.ifPresent(u -> {new CustomerServiceException(AppConstants.ErrorMsgs.DUPLICATE_EMAIL);});
+		userId.ifPresent(u -> {
+			new CustomerServiceException(AppConstants.ErrorMsgs.DUPLICATE_EMAIL);
+		});
 	}
-	
+
 	@Override
 	public List<SimCard> findAllSimsByCustomerId(Long customerId) {
 		return Optional.ofNullable(customerRepository.findSimsByCustomerId(customerId)).orElse(new ArrayList<>());
 	}
-	
+
 	@Override
 	public List<Customer> getAllCustomerHavingBday() {
 		return Optional.ofNullable(customerRepository.findAllCustomerHavingBday()).orElse(new ArrayList<>());
+	}
+
+	@Override
+	public List<Customer> getAllCustomerHavingBdayAfter7Days() {
+		return Optional.ofNullable(customerRepository.findAllCustomerHavingBdayAfter7Days()).orElse(new ArrayList<>());
 	}
 
 }

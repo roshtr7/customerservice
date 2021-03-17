@@ -16,4 +16,6 @@ public interface CustomerService {
 
 	List<Customer> getAllCustomerHavingBday();
 
+	List<Customer> getAllCustomerHavingBdayAfter7Days();
+
 }
