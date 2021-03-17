@@ -42,3 +42,10 @@ logging:
 haud:
   email:
     from: testemailuser8@gmail.com
+    template:
+      bday: bday
+      
+      
+      
+      
+      

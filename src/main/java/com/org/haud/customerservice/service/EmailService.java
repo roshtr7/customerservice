@@ -23,17 +23,13 @@ public class EmailService {
 
 	@Value("${haud.email.from}")
 	private String from;
+	
+	@Value("${haud.email.template.bday}")
+	private String bdayTemplate;
 
 	@Autowired
 	private TemplateEngine templateEngine;
 
-//	private String BDAY_TEMPLATE;
-
-//	@SuppressWarnings("deprecation")
-//	@PostConstruct
-//	private void init() throws IOException {
-//		BDAY_TEMPLATE = IOUtils.toString(getClass().getResourceAsStream("/templates/email/bday.html"));
-//	}
 
 	public void sendEmail(Customer customer) throws MessagingException {
 		// Prepare the evaluation context
@@ -43,7 +39,6 @@ public class EmailService {
 		MimeMessage mimeMessage = emailSender.createMimeMessage();
 		MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
 		message.setFrom(from);
-//		message.setTo(to);
 		message.setTo(customer.getEmail());
 		message.setSubject(AppConstants.Emails.ADVANCEHAPPYBDAY);
 		message.setText(html, true);
