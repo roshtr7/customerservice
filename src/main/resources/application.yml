@@ -20,8 +20,8 @@ spring:
         format_sql: true
   flyway:
     enabled: true
-    locations: classpath:/scripts
-    schemas: public
+    locations: classpath:/sql
+    schemas: customerdb
     baseline-on-migrate: true
   mail:
     host: smtp.gmail.com
