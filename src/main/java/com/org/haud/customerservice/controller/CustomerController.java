@@ -45,11 +45,11 @@ public class CustomerController {
 	public void testEmail() {
 		emailScheduler.sendBirthdayEmail();
 	}
-
-	@GetMapping("/export")
-	public void testEmailExport() {
-		emailScheduler.exportCustomers();
-	}
+//
+//	@GetMapping("/export")
+//	public void testEmailExport() {
+//		emailScheduler.exportCustomers();
+//	}
 
 	@PostMapping("/link-sim")
 	public ResponseEntity<ResponseDto> linkCustomerAndSim(@RequestParam Long customerId, @RequestParam Long simId)

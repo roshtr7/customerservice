@@ -49,6 +49,7 @@ haud:
   csv: /home/rosh/NeoSoft
   companyemail: roshtr321@gmail.com
   email:
+    reminder: 7
     from: testemailuser8@gmail.com
     template:
       bday: bday

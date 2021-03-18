@@ -67,30 +67,32 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 	}
 
 	public void writeDataLineByLine(String filePath, List<Customer> customerList) {
-		UUID uuid = UUID.randomUUID();
-		File file = new File(filePath + "/" + uuid + ".csv");
-		try {
+		if (!customerList.isEmpty()) {
+			UUID uuid = UUID.randomUUID();
+			File file = new File(filePath + "/" + uuid + ".csv");
+			try {
 
-			FileWriter outputfile = new FileWriter(file);
+				FileWriter outputfile = new FileWriter(file);
 
-			CSVWriter writer = new CSVWriter(outputfile);
+				CSVWriter writer = new CSVWriter(outputfile);
 
-			// adding header to csv
-			String[] header = { "Name", "Email", "Sim" };
-			writer.writeNext(header);
-			customerList.stream().forEach(c -> {
-				Set<SimCard> simCards = c.getSimCards();
-				String sim = simCards.stream().map(String::valueOf).collect(Collectors.joining(", "));
-				String[] rows = { c.getFirstName() + " " + c.getLastName(), c.getEmail(), sim };
-				writer.writeNext(rows);
-			});
+				// adding header to csv
+				String[] header = { "Name", "Email", "Sim" };
+				writer.writeNext(header);
+				customerList.stream().forEach(c -> {
+					Set<SimCard> simCards = c.getSimCards();
+					String sim = simCards.stream().map(String::valueOf).collect(Collectors.joining(", "));
+					String[] rows = { c.getFirstName() + " " + c.getLastName(), c.getEmail(), sim };
+					writer.writeNext(rows);
+				});
 
-			// closing writer connection
-			writer.close();
-			emailService.sendMailWithAttachment(companyEmail, "Customer Export", "PFA", file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				// closing writer connection
+				writer.close();
+				emailService.sendMailWithAttachment(companyEmail, "Customer Export", "PFA", file);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

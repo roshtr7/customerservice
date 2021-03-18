@@ -16,6 +16,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.org.haud.customerservice.dto.CustomerDto;
@@ -36,6 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private SimCardRepository simCardRepository;
+
+	@Value("${haud.email.reminder}")
+	private Long emailReminderDate;
 
 	@Override
 	public ResponseDto createUser(CustomerDto userDto) throws CustomerServiceException {
@@ -94,7 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> getAllCustomerHavingBdayAfter7Days() {
 		LocalDate today = LocalDate.now();
-		LocalDate seventhDay = today.plusDays(7);
+		LocalDate seventhDay = today.plusDays(emailReminderDate);
 		Date date = Date.from(seventhDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		return Optional.ofNullable(customerRepository.findAllCustomerByDateOfBirth(date)).orElse(new ArrayList<>());
 	}
