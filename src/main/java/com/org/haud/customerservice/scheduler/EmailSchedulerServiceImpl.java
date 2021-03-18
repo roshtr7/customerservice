@@ -39,6 +39,9 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 	@Value("${haud.csv}")
 	private String filePath;
 
+	@Value("${haud.companyemail}")
+	private String companyEmail;
+
 	@Override
 	@Scheduled(cron = "0 0 0 * * ?")
 	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
@@ -55,18 +58,20 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 	}
 
 	@Override
+	@Scheduled(cron = "0 0 0 * * ?")
+	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
 	public void exportCustomers() {
 		List<Customer> customerList = customerService.getAllCustomerHavingBday();
 		writeDataLineByLine(filePath, customerList);
 
 	}
 
-	public static void writeDataLineByLine(String filePath, List<Customer> customerList) {
-		File file = new File(filePath);
+	public void writeDataLineByLine(String filePath, List<Customer> customerList) {
+		UUID uuid = UUID.randomUUID();
+		File file = new File(filePath + "/" + uuid + ".csv");
 		try {
 
-			UUID uuid = UUID.randomUUID();
-			FileWriter outputfile = new FileWriter(file + "/" + uuid + ".csv");
+			FileWriter outputfile = new FileWriter(file);
 
 			CSVWriter writer = new CSVWriter(outputfile);
 
@@ -82,6 +87,7 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 
 			// closing writer connection
 			writer.close();
+			emailService.sendMailWithAttachment(companyEmail, "Customer Export", "PFA", file);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

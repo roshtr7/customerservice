@@ -47,6 +47,7 @@ logging:
         
 haud:
   csv: /home/rosh/NeoSoft
+  companyemail: roshtr321@gmail.com
   email:
     from: testemailuser8@gmail.com
     template:
