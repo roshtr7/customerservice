@@ -25,4 +25,4 @@ How to run:- <br />
 # scheduled-jobs
 
 1. birthday-notification -> Send email to customer wishing advance happy bithday <br/>
-2. Customer-export -> send csv file having data of all customer customers having their birthday on the day <br/> 
+2. Customer-export -> send csv file having data of all customers having their birthday on the day <br/> 
