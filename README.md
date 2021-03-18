@@ -7,6 +7,6 @@
 |GET		| /customer/sim			|	Retrieve Customer Sims			| 
 |POST		| /customer/link-sim	|	Link sim to Customer 			|
 |POST		| /sim 					|	Create Sim 						|
-|POST		| /sim/all				|	Retrieve all Sims               |
+|GET		| /sim/all				|	Retrieve all Sims               |
 
 
