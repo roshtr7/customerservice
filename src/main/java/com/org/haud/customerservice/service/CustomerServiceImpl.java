@@ -1,10 +1,12 @@
 package com.org.haud.customerservice.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.org.haud.customerservice.dto.CustomerDto;
 import com.org.haud.customerservice.dto.ResponseDto;
+import com.org.haud.customerservice.dto.SimCardDto;
 import com.org.haud.customerservice.entity.Customer;
 import com.org.haud.customerservice.entity.SimCard;
 import com.org.haud.customerservice.exception.CustomerServiceException;
@@ -56,15 +59,27 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	public void validateEmail(String email) throws CustomerServiceException {
-		Optional<Customer> userId = customerRepository.findByEmail(email);
-		userId.ifPresent(u -> {
-			new CustomerServiceException(AppConstants.ErrorMsgs.DUPLICATE_EMAIL);
-		});
+		Optional<Customer> customer = customerRepository.findByEmail(email);
+		if (customer.isPresent()) {
+			throw new CustomerServiceException(AppConstants.ErrorMsgs.DUPLICATE_EMAIL);
+		}
 	}
 
 	@Override
-	public List<SimCard> findAllSimsByCustomerId(Long customerId) {
-		return Optional.ofNullable(customerRepository.findSimsByCustomerId(customerId)).orElse(new ArrayList<>());
+	public Set<SimCardDto> findAllSimsByCustomerId(Long customerId) {
+		Set<SimCard> simCards = Optional.ofNullable(customerRepository.findSimsByCustomerId(customerId))
+				.orElse(new HashSet<>());
+		Set<SimCardDto> simDtoList = mapSimCardsToSimCardDtos(simCards);
+		return simDtoList;
+	}
+
+	private Set<SimCardDto> mapSimCardsToSimCardDtos(Set<SimCard> simCards) {
+		Set<SimCardDto> simDtoList = new HashSet<>();
+		simCards.stream().forEach(s -> {
+			SimCardDto simDto = SimCardDto.builder().Id(s.getId()).ICCID(s.getICCID()).IMSI(s.getIMSI()).build();
+			simDtoList.add(simDto);
+		});
+		return simDtoList;
 	}
 
 	@Override
@@ -78,13 +93,13 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional
 	public void linkSim(Long customerId, Long simId) throws CustomerServiceException {
 		Customer customer = customerRepository.findById(customerId)
 				.orElseThrow(() -> new CustomerServiceException(AppConstants.ErrorMsgs.CUSTOMER_NOT_FOUND));
-		SimCard sim = simCardRepository.findById(customerId)
+		SimCard sim = simCardRepository.findById(simId)
 				.orElseThrow(() -> new CustomerServiceException(AppConstants.ErrorMsgs.SIM_NOT_FOUND));
-		List<SimCard> simCardList = Optional.ofNullable(customer.getSimCardList()).orElse(new ArrayList<>());
-		simCardList.add(sim);
+		customer.addSimCard(sim);
 		customerRepository.save(customer);
 	}
 

@@ -46,7 +46,7 @@ public class CustomerController {
 		emailScheduler.sendBirthdayEmail();
 	}
 
-	@GetMapping("/link-sim")
+	@PostMapping("/link-sim")
 	public ResponseEntity<ResponseDto> linkCustomerAndSim(@RequestParam Long customerId, @RequestParam Long simId)
 			throws CustomerServiceException {
 		customerService.linkSim(customerId, simId);

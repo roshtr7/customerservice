@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +21,8 @@ public class SimController {
 	@Autowired
 	private SimCardService simCardService;
 
-	public ResponseEntity<ResponseDto> createSim(SimCardDto simDto) {
+	@PostMapping
+	public ResponseEntity<ResponseDto> createSim(@RequestBody SimCardDto simDto) {
 		ResponseDto responseDto = simCardService.createSimCard(simDto);
 		if (responseDto.getErrors() != null) {
 			return ResponseEntity.badRequest().body(responseDto);
@@ -27,6 +31,7 @@ public class SimController {
 	}
 
 	// Not recommended in production. Need to implement pagination.
+	@GetMapping("/all")
 	public ResponseEntity<ResponseDto> getAllSims() {
 		List<SimCardDto> simCardList = simCardService.findAll();
 		return ResponseEntity.ok(ResponseDto.builder().data(simCardList).build());

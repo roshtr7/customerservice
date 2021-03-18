@@ -3,6 +3,7 @@ package com.org.haud.customerservice.dto;
 import java.util.Date;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,7 @@ public class CustomerDto {
 	@NotBlank(message = "Email is mandatory")
 	private String email;
 
-	@NotBlank(message = "Date of birth is mandatory")
+	@NotNull(message = "Date of birth is mandatory")
 	private Date dateOfBirth;
 	
 }

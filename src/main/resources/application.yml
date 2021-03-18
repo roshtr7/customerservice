@@ -11,12 +11,18 @@ spring:
     initialization-mode: always
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
-        ddl-auto: update
         show_sql: true
         use_sql_comments: true
         format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:/scripts
+    schemas: public
+    baseline-on-migrate: true
   mail:
     host: smtp.gmail.com
     port: 587

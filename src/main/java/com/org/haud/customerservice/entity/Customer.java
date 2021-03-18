@@ -1,7 +1,8 @@
 package com.org.haud.customerservice.entity;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "customer")
+@Table(name = "customers")
 public class Customer {
 
 	@Id
@@ -51,12 +51,17 @@ public class Customer {
 	@Column(nullable = false)
 	private Date dateOfBirth;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "sim_card_id", nullable = true)
-	private List<SimCard> simCardList;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+	@Builder.Default
+	private Set<SimCard> simCards = new HashSet<>();
 
 	@NotNull
 	@Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
 	@Builder.Default
 	private Boolean isDelete = false;
+
+	public void addSimCard(SimCard sim) {
+		sim.setCustomer(this);
+		this.simCards.add(sim);
+	}
 }
