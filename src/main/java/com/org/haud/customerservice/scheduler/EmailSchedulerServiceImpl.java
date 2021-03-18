@@ -81,7 +81,7 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 				writer.writeNext(header);
 				customerList.stream().forEach(c -> {
 					Set<SimCard> simCards = c.getSimCards();
-					String sim = simCards.stream().map(String::valueOf).collect(Collectors.joining(", "));
+					String sim = simCards.stream().map(SimCard::getIMSI).collect(Collectors.joining(", "));
 					String[] rows = { c.getFirstName() + " " + c.getLastName(), c.getEmail(), sim };
 					writer.writeNext(rows);
 				});

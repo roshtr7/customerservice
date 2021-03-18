@@ -41,10 +41,10 @@ public class CustomerController {
 				.ok(ResponseDto.builder().data(customerService.findAllSimsByCustomerId(customerId)).build());
 	}
 
-	@GetMapping("/testemail")
-	public void testEmail() {
-		emailScheduler.sendBirthdayEmail();
-	}
+//	@GetMapping("/testemail")
+//	public void testEmail() {
+//		emailScheduler.sendBirthdayEmail();
+//	}
 //
 //	@GetMapping("/export")
 //	public void testEmailExport() {
