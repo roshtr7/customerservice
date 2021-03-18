@@ -44,7 +44,7 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 
 	@Override
 	@Scheduled(cron = "0 0 0 * * ?")
-	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
+	@SchedulerLock(name = "birthday_email_cron", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
 	public void sendBirthdayEmail() {
 		logger.info("Sending bday notification email!");
 		List<Customer> customerList = customerService.getAllCustomerHavingBdayAfter7Days();
@@ -59,7 +59,7 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 
 	@Override
 	@Scheduled(cron = "0 0 0 * * ?")
-	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
+	@SchedulerLock(name = "customer_export_cron", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
 	public void exportCustomers() {
 		List<Customer> customerList = customerService.getAllCustomerHavingBday();
 		writeDataLineByLine(filePath, customerList);
