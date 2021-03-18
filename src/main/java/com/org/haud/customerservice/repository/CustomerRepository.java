@@ -1,5 +1,6 @@
 package com.org.haud.customerservice.repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -19,9 +20,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	@Query("SELECT c.simCards FROM Customer c WHERE c.id = (:id)")
 	Set<SimCard> findSimsByCustomerId(Long id);
 
-	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(FROM_UNIXTIME(c.dateOfBirth),'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')")
+	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(c.dateOfBirth,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')")
 	List<Customer> findAllCustomerHavingBday();
 
-	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(FROM_UNIXTIME(c.dateOfBirth),'%m-%d') = DATE_FORMAT(DAY(ADDDATE(NOW(),+7)),'%m-%d')")
-	List<Customer> findAllCustomerHavingBdayAfter7Days();
+//	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(c.dateOfBirth,'%m-%d') = DATE_FORMAT(ADDDATE(NOW(),+7),'%m-%d')")
+//	List<Customer> findAllCustomerHavingBdayAfter7Days();
+
+	@Query("SELECT c FROM Customer c WHERE DATE_FORMAT(c.dateOfBirth,'%m-%d') = DATE_FORMAT((:date),'%m-%d')")
+	List<Customer> findAllCustomerByDateOfBirth(Date date);
 }

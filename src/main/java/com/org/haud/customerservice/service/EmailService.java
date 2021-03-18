@@ -16,20 +16,18 @@ import com.org.haud.customerservice.util.AppConstants;
 
 @Service("emailService")
 public class EmailService {
-//	private static final Logger logger = LogManager.getLogger(EmailService.class);
 
 	@Autowired
 	private JavaMailSender emailSender;
 
 	@Value("${haud.email.from}")
 	private String from;
-	
+
 	@Value("${haud.email.template.bday}")
 	private String bdayTemplate;
 
 	@Autowired
 	private TemplateEngine templateEngine;
-
 
 	public void sendEmail(Customer customer) throws MessagingException {
 		// Prepare the evaluation context

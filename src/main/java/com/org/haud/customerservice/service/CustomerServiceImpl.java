@@ -1,6 +1,9 @@
 package com.org.haud.customerservice.service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -84,12 +87,16 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public List<Customer> getAllCustomerHavingBday() {
-		return Optional.ofNullable(customerRepository.findAllCustomerHavingBday()).orElse(new ArrayList<>());
+		return Optional.ofNullable(customerRepository.findAllCustomerByDateOfBirth(new Date()))
+				.orElse(new ArrayList<>());
 	}
 
 	@Override
 	public List<Customer> getAllCustomerHavingBdayAfter7Days() {
-		return Optional.ofNullable(customerRepository.findAllCustomerHavingBdayAfter7Days()).orElse(new ArrayList<>());
+		LocalDate today = LocalDate.now();
+		LocalDate seventhDay = today.plusDays(7);
+		Date date = Date.from(seventhDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		return Optional.ofNullable(customerRepository.findAllCustomerByDateOfBirth(date)).orElse(new ArrayList<>());
 	}
 
 	@Override

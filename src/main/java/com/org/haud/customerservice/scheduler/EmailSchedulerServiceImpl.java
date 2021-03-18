@@ -17,9 +17,9 @@ import com.org.haud.customerservice.service.EmailService;
 import net.javacrumbs.shedlock.core.SchedulerLock;
 
 @Service
-public class EmailScheduler {
+public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 
-	private static final Logger logger = LogManager.getLogger(EmailScheduler.class);
+	private static final Logger logger = LogManager.getLogger(EmailSchedulerServiceImpl.class);
 
 	@Autowired
 	CustomerService customerService;
@@ -28,8 +28,9 @@ public class EmailScheduler {
 	EmailService emailService;
 
 	@Scheduled(cron = "0 0 0 * * ?")
-	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT30M", lockAtMostForString = "PT50M")
+	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
 	public void sendBirthdayEmail() {
+		logger.info("Sending bday notification email!");
 		List<Customer> customerList = customerService.getAllCustomerHavingBdayAfter7Days();
 		customerList.stream().forEach(c -> {
 			try {
