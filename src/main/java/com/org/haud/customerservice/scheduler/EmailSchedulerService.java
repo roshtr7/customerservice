@@ -4,4 +4,6 @@ public interface EmailSchedulerService {
 
 	void sendBirthdayEmail();
 
+	void exportCustomers();
+
 }

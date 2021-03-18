@@ -1,7 +1,12 @@
 package com.org.haud.customerservice.service;
 
+import java.io.File;
+
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,4 +47,5 @@ public class EmailService {
 		message.setText(html, true);
 		emailSender.send(mimeMessage);
 	}
+
 }

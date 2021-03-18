@@ -46,6 +46,7 @@ logging:
         type: trace
         
 haud:
+  csv: /home/rosh/NeoSoft
   email:
     from: testemailuser8@gmail.com
     template:
