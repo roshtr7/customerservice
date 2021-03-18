@@ -31,10 +31,10 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 	private static final Logger logger = LogManager.getLogger(EmailSchedulerServiceImpl.class);
 
 	@Autowired
-	CustomerService customerService;
+	private CustomerService customerService;
 
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
 
 	@Value("${haud.csv}")
 	private String filePath;

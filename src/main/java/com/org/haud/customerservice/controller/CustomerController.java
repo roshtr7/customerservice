@@ -23,7 +23,7 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@Autowired
-	EmailSchedulerService emailScheduler;
+	private EmailSchedulerService emailScheduler;
 
 	@PostMapping
 	public ResponseEntity<ResponseDto> createCustomer(@RequestBody CustomerDto customerDto)
