@@ -7,6 +7,7 @@ public abstract class AppConstants {
 		public static final String CUSTOMER_NOT_FOUND = "Customer not found!";
 		public static final String SIM_NOT_FOUND = "SIM not found!";
 		public static final String DUPLICATE_EMAIL = "Duplicate Email!!";
+		public static final String DUPLICATE_SIM = "Duplicate SIM!!";
 	}
 
 	public abstract class Emails {
