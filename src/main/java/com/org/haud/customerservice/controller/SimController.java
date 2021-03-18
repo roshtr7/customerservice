@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.org.haud.customerservice.dto.ResponseDto;
 import com.org.haud.customerservice.dto.SimCardDto;
+import com.org.haud.customerservice.exception.CustomerServiceException;
 import com.org.haud.customerservice.service.SimCardService;
 
 @RestController
@@ -22,7 +23,7 @@ public class SimController {
 	private SimCardService simCardService;
 
 	@PostMapping
-	public ResponseEntity<ResponseDto> createSim(@RequestBody SimCardDto simDto) {
+	public ResponseEntity<ResponseDto> createSim(@RequestBody SimCardDto simDto) throws CustomerServiceException {
 		ResponseDto responseDto = simCardService.createSimCard(simDto);
 		if (responseDto.getErrors() != null) {
 			return ResponseEntity.badRequest().body(responseDto);

@@ -2,6 +2,7 @@ package com.org.haud.customerservice.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -15,7 +16,9 @@ import org.springframework.stereotype.Service;
 import com.org.haud.customerservice.dto.ResponseDto;
 import com.org.haud.customerservice.dto.SimCardDto;
 import com.org.haud.customerservice.entity.SimCard;
+import com.org.haud.customerservice.exception.CustomerServiceException;
 import com.org.haud.customerservice.repository.SimCardRepository;
+import com.org.haud.customerservice.util.AppConstants;
 
 @Service
 public class SimCardServiceImp implements SimCardService {
@@ -24,11 +27,12 @@ public class SimCardServiceImp implements SimCardService {
 	private SimCardRepository simCardRepository;
 
 	@Override
-	public ResponseDto createSimCard(SimCardDto simDto) {
+	public ResponseDto createSimCard(SimCardDto simDto) throws CustomerServiceException {
 		List<String> errorList = validateSimCardDto(simDto);
 		if (errorList.size() > 0) {
 			return ResponseDto.builder().errors(errorList).build();
 		}
+		validateSimExists(simDto);
 		SimCard simCard = SimCard.builder().ICCID(simDto.getICCID()).IMSI(simDto.getIMSI()).build();
 		simCardRepository.save(simCard);
 		return ResponseDto.builder().build();
@@ -55,6 +59,13 @@ public class SimCardServiceImp implements SimCardService {
 			simDtoList.add(simDto);
 		});
 		return simDtoList;
+	}
+
+	public void validateSimExists(SimCardDto simDto) throws CustomerServiceException {
+		Optional<SimCard> sim = simCardRepository.findByIccidORImsi(simDto.getICCID(), simDto.getIMSI());
+		if (sim.isPresent()) {
+			throw new CustomerServiceException(AppConstants.ErrorMsgs.DUPLICATE_SIM);
+		}
 	}
 
 }
