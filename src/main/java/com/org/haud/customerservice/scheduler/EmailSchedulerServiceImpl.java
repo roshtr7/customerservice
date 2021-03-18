@@ -27,6 +27,7 @@ public class EmailSchedulerServiceImpl implements EmailSchedulerService {
 	@Autowired
 	EmailService emailService;
 
+	@Override
 	@Scheduled(cron = "0 0 0 * * ?")
 	@SchedulerLock(name = "birthday_email", lockAtLeastForString = "PT10M", lockAtMostForString = "PT15M")
 	public void sendBirthdayEmail() {

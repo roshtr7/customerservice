@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.org.haud.customerservice.dto.CustomerDto;
 import com.org.haud.customerservice.dto.ResponseDto;
 import com.org.haud.customerservice.exception.CustomerServiceException;
-import com.org.haud.customerservice.scheduler.EmailScheduler;
+import com.org.haud.customerservice.scheduler.EmailSchedulerService;
 import com.org.haud.customerservice.service.CustomerService;
 
 @RestController
@@ -23,7 +23,7 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@Autowired
-	EmailScheduler emailScheduler;
+	EmailSchedulerService emailScheduler;
 
 	@PostMapping
 	public ResponseEntity<ResponseDto> createCustomer(@RequestBody CustomerDto customerDto)
